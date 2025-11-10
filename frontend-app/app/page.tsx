@@ -107,7 +107,7 @@ export default function Home() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="청소기 설명서에 대해 질문해보세요..."
+            placeholder="청소기 설명서에 대해 질문해보세요...!"
             className="flex-1 p-2 border rounded-lg text-black"
           />
           <button
