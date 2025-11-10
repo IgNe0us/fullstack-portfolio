@@ -1,0 +1,18 @@
+# k8s/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portfolio-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      # '/' (루트 경로)로 오는 모든 요청
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            # [연결 4] K8s 외부의 요청을 'frontend-service'로 보냄
+            name: frontend-service
+            port:
+              number: 3000 # frontend-service의 3000번 포트로

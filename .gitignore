@@ -1,0 +1,30 @@
+# ----------------
+# Python (AI)
+# ----------------
+# venv 폴더 (가상환경)
+my-portfolio-project/venv/
+# Python 캐시
+my-portfolio-project/__pycache__/
+
+# ----------------
+# Node.js (Frontend)
+# ----------------
+# 의존성 폴더
+frontend-app/node_modules/
+# Next.js 빌드 캐시
+frontend-app/.next/
+# npm 로그
+frontend-app/npm-debug.log*
+frontend-app/yarn-debug.log*
+frontend-app/yarn-error.log*
+
+# ----------------
+# Java (Backend)
+# ----------------
+# Gradle 빌드 결과물
+backend-server/build/
+# Gradle 캐시
+backend-server/.gradle/
+# IDE 설정
+backend-server/.idea/
+backend-server/*.iml

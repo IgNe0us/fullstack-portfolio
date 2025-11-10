@@ -1,0 +1,7 @@
+# 로컬 Gradle 캐시 및 빌드 결과물 무시
+.gradle
+/build/
+
+# IDE 설정 파일 무시
+.idea/
+*.iml

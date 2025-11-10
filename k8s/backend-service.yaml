@@ -1,0 +1,15 @@
+# k8s/backend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  # [중요!] 이 이름(backend-service)은
+  # frontend-deployment.yaml의 SPRING_BOOT_URL 값과 일치해야 합니다.
+  name: backend-service
+spec:
+  type: ClusterIP
+  selector:
+    app: backend # 'app: backend' 라벨이 붙은 Pod로 트래픽을 보냄
+  ports:
+    - protocol: TCP
+      port: 8080 # 이 서비스(backend-service)의 8080 포트로
+      targetPort: 8080 # Pod(컨테이너)의 8080 포트를 조준

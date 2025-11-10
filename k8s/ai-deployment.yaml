@@ -1,0 +1,26 @@
+# k8s/ai-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-deployment # 디플로이먼트의 이름
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai # 'app: ai' 라벨이 붙은 Pod를 관리
+  template: # --- Pod 명세 ---
+    metadata:
+      labels:
+        app: ai # Pod에 'app: ai' 라벨을 붙임
+    spec:
+      containers:
+        - name: ai
+          # [중요!] CI/CD가 푸시할 GitHub 이미지 주소
+          image: ghcr.io/YOUR_GITHUB_ID/YOUR_REPO_NAME/ai:latest
+          ports:
+            - containerPort: 8000 # FastAPI가 8000 포트를 사용
+          env:
+            - name: OLLAMA_BASE_URL
+              # [연결 3] K8s 컨테이너가 '호스트 PC'의 Ollama를 찾도록 함
+              # 'host.docker.internal'은 K8s가 호스트 PC를 가리키는 특수 DNS 이름
+              value: "http://host.docker.internal:11434"

@@ -1,0 +1,26 @@
+# k8s/backend-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment # 디플로이먼트의 이름
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend # 'app: backend' 라벨이 붙은 Pod를 관리
+  template: # --- Pod 명세 ---
+    metadata:
+      labels:
+        app: backend # Pod에 'app: backend' 라벨을 붙임
+    spec:
+      containers:
+        - name: backend
+          # [중요!] CI/CD가 푸시할 GitHub 이미지 주소
+          image: ghcr.io/YOUR_GITHUB_ID/YOUR_REPO_NAME/backend:latest
+          ports:
+            - containerPort: 8080 # Spring Boot가 8080 포트를 사용
+          env:
+            - name: AI_SERVER_URL
+              # [연결 2] 'ai' 서비스 대신 K8s의 'ai-service'를 바라봄
+              # (이 이름은 우리가 곧 만들 Service의 이름)
+              value: "http://ai-service:8000"

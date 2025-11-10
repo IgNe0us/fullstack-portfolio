@@ -1,0 +1,15 @@
+# k8s/ai-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  # [중요!] 이 이름(ai-service)은
+  # backend-deployment.yaml의 AI_SERVER_URL 값과 일치해야 합니다.
+  name: ai-service
+spec:
+  type: ClusterIP
+  selector:
+    app: ai # 'app: ai' 라벨이 붙은 Pod로 트래픽을 보냄
+  ports:
+    - protocol: TCP
+      port: 8000 # 이 서비스(ai-service)의 8000 포트로
+      targetPort: 8000 # Pod(컨테이너)의 8000 포트를 조준

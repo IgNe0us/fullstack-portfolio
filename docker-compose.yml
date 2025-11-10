@@ -1,0 +1,44 @@
+version: '3.8' # Docker Compose 파일 버전
+
+# 3개의 서비스를 정의
+services:
+
+  # 1. 프론트엔드 (React/Next.js)
+  frontend:
+    build:
+      context: ./frontend-app  # Dockerfile이 있는 폴더
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # 내 PC의 3000번 포트 -> 컨테이너의 3000번 포트
+    environment:
+      # [연결 1] React(route.ts)가 'backend'라는 이름의 서비스를 찾도록
+      # SPRING_BOOT_URL 환경 변수를 주입
+      - SPRING_BOOT_URL=http://backend:8080
+    depends_on:
+      - backend # 'backend' 서비스가 켜진 후에 'frontend'를 켬
+
+  # 2. 백엔드 (Spring Boot)
+  backend:
+    build:
+      context: ./backend-server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # 내 PC의 8080 -> 컨테이너의 8080
+    environment:
+      # [연결 2] Spring(ChatService.java)이 'ai'라는 이름의 서비스를 찾도록
+      # AI_SERVER_URL 환경 변수를 주입 (application.properties 값을 덮어씀)
+      - AI_SERVER_URL=http://ai:8000
+    depends_on:
+      - ai # 'ai' 서비스가 켜진 후에 'backend'를 켬
+
+  # 3. AI 서버 (Python/FastAPI)
+  ai:
+    build:
+      context: ./my-portfolio-project
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000" # 내 PC의 8000 -> 컨테이너의 8000
+    environment:
+      # [연결 3] Python(main.py)이 '컨테이너 외부(host.docker.internal)'의
+      # Ollama(11434)를 찾도록 OLLAMA_BASE_URL 환경 변수를 주입
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434

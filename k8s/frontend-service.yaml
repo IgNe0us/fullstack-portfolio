@@ -1,0 +1,13 @@
+# k8s/frontend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service # 이 서비스의 고정된 내부 주소(DNS 이름)
+spec:
+  type: ClusterIP # 클러스터 내부에서만 접근 가능한 기본 타입
+  selector:
+    app: frontend # 'app: frontend' 라벨이 붙은 모든 Pod로 트래픽을 보냄
+  ports:
+    - protocol: TCP
+      port: 3000 # 이 서비스(frontend-service)의 3000번 포트로
+      targetPort: 3000 # Pod(컨테이너)의 3000번 포트를 조준
