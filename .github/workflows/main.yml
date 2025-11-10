@@ -1,0 +1,67 @@
+# .github/workflows/main.yml
+
+name: 포트폴리오 CI/CD
+
+# 'main' 브랜치에 'push'가 일어날 때마다 이 파이프라인을 실행
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-push-deploy:
+    runs-on: ubuntu-latest # 이 작업은 GitHub이 제공하는 가상 리눅스 서버에서 실행
+    
+    # [권한 설정] GHCR에 이미지를 PUSH하려면 이 권한이 필수입니다.
+    permissions:
+      contents: read
+      packages: write # GHCR에 쓰기 권한
+
+    steps:
+    # 1. GitHub 리포지토리의 코드를 가상 서버로 내려받음
+    - name: 1. Checkout Repository
+      uses: actions/checkout@v4
+
+    # 2. GitHub Container Registry (GHCR)에 로그인
+    - name: 2. Login to GHCR
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }} # 님 GitHub ID
+        password: ${{ secrets.GITHUB_TOKEN }} # GitHub이 자동으로 발급
+
+    # --- CI (Build & Push) 단계 ---
+    # 3개의 서비스를 각각 빌드하고 GHCR에 푸시
+    - name: 3. Build and Push Frontend
+      uses: docker/build-push-action@v5
+      with:
+        context: ./frontend-app
+        push: true
+        tags: ghcr.io/IgNe0us/fullstack-portfolio/frontend:latest # [★님의 ID/리포지토리로 수정]
+
+    - name: 4. Build and Push Backend
+      uses: docker/build-push-action@v5
+      with:
+        context: ./backend-server
+        push: true
+        tags: ghcr.io/IgNe0us/fullstack-portfolio/backend:latest # [★님의 ID/리포지토리로 수정]
+
+    - name: 5. Build and Push AI
+      uses: docker/build-push-action@v5
+      with:
+        context: ./my-portfolio-project
+        push: true
+        tags: ghcr.io/IgNe0us/fullstack-portfolio/ai:latest # [★님의 ID/리포지토리로 수정]
+
+    # --- CD (Deploy) 단계 ---
+    # 6. K8s 클러스터에 접속 (로컬 Docker Desktop K8s 기준)
+    - name: 6. Set up Kubeconfig (K8s 접속 설정)
+      uses: azure/k8s-set-context@v4
+      with:
+        method: kubeconfig
+        # [★필수!] 이 Secret은 4단계에서 GitHub에 직접 등록해야 합니다.
+        kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }} 
+
+    # 7. K8s 클러스터에 "k8s 폴더의 모든 .yaml 파일을 적용해!" 라고 명령
+    - name: 7. Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/

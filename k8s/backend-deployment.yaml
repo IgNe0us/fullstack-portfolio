@@ -16,7 +16,7 @@ spec:
       containers:
         - name: backend
           # [중요!] CI/CD가 푸시할 GitHub 이미지 주소
-          image: ghcr.io/YOUR_GITHUB_ID/YOUR_REPO_NAME/backend:latest
+          image: ghcr.io/IgNe0us/fullstack-portfolio/backend:latest:latest
           ports:
             - containerPort: 8080 # Spring Boot가 8080 포트를 사용
           env:
