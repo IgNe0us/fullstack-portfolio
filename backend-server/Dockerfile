@@ -10,6 +10,8 @@ WORKDIR /app
 COPY gradlew .
 COPY gradle ./gradle
 
+RUN chmod +x ./gradlew
+
 # 2. 의존성 파일 복사 및 다운로드
 # (소스코드 변경 없이 의존성만 변경될 때 캐시를 활용하기 위함)
 COPY build.gradle .
