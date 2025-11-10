@@ -16,7 +16,7 @@ spec:
       containers:
         - name: ai
           # [중요!] CI/CD가 푸시할 GitHub 이미지 주소
-          image: ghcr.io/IgNe0us/fullstack-portfolio/ai:latest
+          image: ghcr.io/igne0us/fullstack-portfolio/ai:latest
           ports:
             - containerPort: 8000 # FastAPI가 8000 포트를 사용
           env:

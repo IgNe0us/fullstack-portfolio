@@ -36,21 +36,21 @@ jobs:
       with:
         context: ./frontend-app
         push: true
-        tags: ghcr.io/IgNe0us/fullstack-portfolio/frontend:latest # [★님의 ID/리포지토리로 수정]
+        tags: ghcr.io/igne0us/fullstack-portfolio/frontend:latest # [★님의 ID/리포지토리로 수정]
 
     - name: 4. Build and Push Backend
       uses: docker/build-push-action@v5
       with:
         context: ./backend-server
         push: true
-        tags: ghcr.io/IgNe0us/fullstack-portfolio/backend:latest # [★님의 ID/리포지토리로 수정]
+        tags: ghcr.io/igne0us/fullstack-portfolio/backend:latest # [★님의 ID/리포지토리로 수정]
 
     - name: 5. Build and Push AI
       uses: docker/build-push-action@v5
       with:
         context: ./my-portfolio-project
         push: true
-        tags: ghcr.io/IgNe0us/fullstack-portfolio/ai:latest # [★님의 ID/리포지토리로 수정]
+        tags: ghcr.io/igne0us/fullstack-portfolio/ai:latest # [★님의 ID/리포지토리로 수정]
 
     # --- CD (Deploy) 단계 ---
     # 6. K8s 클러스터에 접속 (로컬 Docker Desktop K8s 기준)

@@ -19,7 +19,7 @@ spec:
           # K8s는 로컬 build를 하지 않습니다.
           # CI/CD 파이프라인이 빌드해서 '이미지 저장소(GHCR)'에 올린 이미지를 사용합니다.
           # 'YOUR_GITHUB_ID/YOUR_REPO_NAME' 부분은 님의 GitHub 정보로 바꿔야 합니다.
-          image: ghcr.io/IgNe0us/fullstack-portfolio/frontend:latest
+          image: ghcr.io/igne0us/fullstack-portfolio/frontend:latest
           ports:
             - containerPort: 3000 # Next.js가 3000번 포트를 사용
           env:
